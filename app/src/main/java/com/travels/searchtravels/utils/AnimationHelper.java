@@ -116,6 +116,7 @@ public class AnimationHelper {
 // this is how you set the parabola which controls acceleration
         set.setInterpolator(new LinearInterpolator());
 // start the animation
+        //TODO: disable this
 //        set.start();
     }
     public static void roundAnimation(View view, float degrees) {
