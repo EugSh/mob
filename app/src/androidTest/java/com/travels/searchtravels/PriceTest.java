@@ -69,7 +69,7 @@ public class PriceTest {
         onView(withId(R.id.pickImageBTN)).perform(click());
         final int minPrice = getMinPrice(MONTH_PERIOD, CODE);
         Thread.sleep(10000);
-        final int price = Integer.parseInt(getText(withId(R.id.airticketTV)).replaceAll("[\\p{L}+ ₽]", ""));
+        final int price = Integer.parseInt(Utils.getText(withId(R.id.airticketTV)).replaceAll("[\\p{L}+ ₽]", ""));
         final float max = minPrice * (1 + PRICE_VOLATILITY);
         final float min = minPrice * (1 - PRICE_VOLATILITY);
         Assert.assertTrue(String.format("Цена, указанная в приложении не принаджелит интервалу [%.2f, %.2f]. Минимальная цена %d. Разброс +- %.2f ", min, max, minPrice, PRICE_VOLATILITY) + "%",
@@ -79,27 +79,7 @@ public class PriceTest {
     }
 
 
-    private String getText(final Matcher<View> matcher) {
-        final String[] stringHolder = {null};
-        onView(matcher).perform(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return isAssignableFrom(TextView.class);
-            }
 
-            @Override
-            public String getDescription() {
-                return "getting text from a TextView";
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                TextView tv = (TextView) view; //Save, because of check in getConstraints()
-                stringHolder[0] = tv.getText().toString();
-            }
-        });
-        return stringHolder[0];
-    }
 
     private int getMinPrice(int monthPeriod, String code) throws IOException, JSONException {
         final GregorianCalendar calendar = new GregorianCalendar();
